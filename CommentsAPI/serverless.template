@@ -32,7 +32,7 @@
           "PutResource": {
             "Type": "Api",
             "Properties": {
-              "Path": "/{proxy+}",
+              "Path": "/api/Comments",
               "Method": "ANY"
             }
           }

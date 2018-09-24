@@ -18,14 +18,9 @@ namespace CommentsAPI.Controllers
         [HttpPost]
         public async Task<JsonResult> Post(string commentText)
         {
-            //Save the comment to your blog here
-            //
-            //
-
-            // Use Comprehend to check the comment sentiment
             try
             {
-                using (var comprehendClient = new AmazonComprehendClient())
+                using (var comprehendClient = new AmazonComprehendClient(Amazon.RegionEndpoint.USEast1))
                 {
                     var sentimentResults = await comprehendClient.DetectSentimentAsync(
                         new DetectSentimentRequest()
@@ -41,7 +36,7 @@ namespace CommentsAPI.Controllers
                             var response = await snsClient.PublishAsync(new PublishRequest()
                             {
                                 Subject = "Negative Comment",
-                                Message = $"Someone posted this negative comment on your blog. Check it out {Environment.NewLine} {commentText}",
+                                Message = $"Someone posted this negative comment on your blog. Check it out - {Environment.NewLine} ***** {Environment.NewLine} {commentText} {Environment.NewLine} ***** ",
                                 TargetArn = "arn:aws:sns:us-east-1:831210339789:CommentNotifier"
                             });
                         }
